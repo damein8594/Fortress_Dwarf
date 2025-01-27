@@ -18,15 +18,26 @@ namespace Dwarven_Fortress
 
         Random rng;
 
+        int[,] R;
+        int[,] G;
+        int[,] B;
+
+
         private int _smoothness = 1;
 
         private int smooth_average = 0;
 
-        private int _width = 50;
-        private int _height = 50;
+        private int _width = 20;
+        private int _height = 10;
 
         private int _pixelWidth = 10;
         private int _pixelHeight = 10;
+
+        private int _peaks = 195;
+        private int _mountains = 165;
+        private int _forest = 125;
+        private int _plains = 105;
+        private int _sands = 100;
 
         public Game1()
         {
@@ -47,11 +58,16 @@ namespace Dwarven_Fortress
 
             grid = new int[_width, _height];
             grid_buffer = new int[_width, _height];
+
+            R = new int[_width, _height];
+            G = new int[_width, _height];
+            B = new int[_width, _height];
+
             for (int i = 0; i < _width; i++)
             {
                 for (int j = 0; j < _height; j++)
                 {
-                    grid[i, j] = rng.Next(5) * 50;
+                    grid[i, j] = rng.Next(255);
                 }
             }
 
@@ -73,10 +89,11 @@ namespace Dwarven_Fortress
                                 if (ni >= 0 && ni < _width && nj >= 0 && nj < _height)
                                 {
                                     smooth_average = smooth_average + grid[ni, nj];
+                                    num_neighbours++;
                                 }
                             }
                         }
-                        smooth_average = smooth_average / 9;
+                        smooth_average = smooth_average / num_neighbours;
                         grid_buffer[i, j] = smooth_average;
                     }
                 }
@@ -88,9 +105,50 @@ namespace Dwarven_Fortress
                     }
                 }
             }
-            
+            for (int i = 0; i < _width; i++)
+            {
+                for (int j = 0; j < _height; j++)
+                {
+                    if (grid[i, j] >= _peaks)
+                    {
+                        R[i, j] = 250;
+                        G[i, j] = 250;
+                        B[i, j] = 250;
+                    }
+                    else if (grid[i, j] >= _mountains)
+                    {
+                        R[i, j] = 137;
+                        G[i, j] = 137;
+                        B[i, j] = 137;
+                    }
+                    else if (grid[i, j] >= _forest)
+                    {
+                        R[i, j] = 0;
+                        G[i, j] = 128;
+                        B[i, j] = 0;
+                    }
+                    else if (grid[i, j] >= _plains)
+                    {
+                        R[i, j] = 5;
+                        G[i, j] = 159;
+                        B[i, j] = 4;
+                    }
+                    else if (grid[i, j] >= _sands)
+                    {
+                        R[i, j] = 194;
+                        G[i, j] = 178;
+                        B[i, j] = 128;
+                    }
+                    else
+                    {
+                        R[i, j] = 29;
+                        G[i, j] = 29;
+                        B[i, j] = 130;
+                    }
+                }
+            }
 
-            base.Initialize();
+                    base.Initialize();
         }
 
         protected override void LoadContent()
@@ -116,7 +174,7 @@ namespace Dwarven_Fortress
             {
                 for (int j = 0; j < _height; j++)
                 {
-                    _spriteBatch.Draw(rect, new Rectangle(i * (_pixelWidth), j * (_pixelHeight), _pixelWidth, _pixelHeight), new Color(0, grid[i, j], 0));
+                    _spriteBatch.Draw(rect, new Rectangle(i * (_pixelWidth), j * (_pixelHeight), _pixelWidth, _pixelHeight), new Color(R[i, j], G[i, j], B[i, j]));
                 }
             }
 
