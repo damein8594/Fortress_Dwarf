@@ -23,21 +23,21 @@ namespace Dwarven_Fortress
         int[,] B;
 
 
-        private int _smoothness = 1;
+        private int _smoothness = 2;
 
         private int smooth_average = 0;
 
-        private int _width = 20;
-        private int _height = 10;
+        private int _width = 200;
+        private int _height = 100;
 
         private int _pixelWidth = 10;
         private int _pixelHeight = 10;
 
-        private int _peaks = 195;
-        private int _mountains = 165;
-        private int _forest = 125;
-        private int _plains = 105;
-        private int _sands = 100;
+        private int _peaks = 175;
+        private int _mountains = 160;
+        private int _forest = 130;
+        private int _plains = 115;
+        private int _sands = 110;
 
         public Game1()
         {
