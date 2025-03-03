@@ -22,19 +22,20 @@ namespace Dwarven_Fortress
         int[,] G;
         int[,] B;
 
+        int[] tect_point;
 
         private int _smoothness = 2;
 
         private int smooth_average = 0;
 
-        private int _width = 200;
-        private int _height = 100;
+        private int _width = 50;
+        private int _height = 25;
 
-        private int _pixelWidth = 10;
-        private int _pixelHeight = 10;
+        private int _pixelWidth = 4;
+        private int _pixelHeight = 4;
 
-        private int _peaks = 175;
-        private int _mountains = 160;
+        private int _peaks = 165;
+        private int _mountains = 155;
         private int _forest = 130;
         private int _plains = 115;
         private int _sands = 110;
@@ -55,6 +56,8 @@ namespace Dwarven_Fortress
             _graphics.PreferredBackBufferWidth = _width * (_pixelWidth);
             _graphics.PreferredBackBufferHeight = _height * (_pixelWidth);
             _graphics.ApplyChanges();
+
+            tect_point = new int[] { rng.Next(_width), rng.Next(_height) };
 
             grid = new int[_width, _height];
             grid_buffer = new int[_width, _height];
@@ -86,11 +89,17 @@ namespace Dwarven_Fortress
                             {
                                 int ni = i + di;
                                 int nj = j + dj;
-                                if (ni >= 0 && ni < _width && nj >= 0 && nj < _height)
+                                if (ni == tect_point[0] && nj == tect_point[1])
+                                {
+                                    smooth_average = smooth_average + 255;
+                                    num_neighbours++;
+                                }
+                                else if (ni >= 0 && ni < _width && nj >= 0 && nj < _height)
                                 {
                                     smooth_average = smooth_average + grid[ni, nj];
                                     num_neighbours++;
                                 }
+                                
                             }
                         }
                         smooth_average = smooth_average / num_neighbours;
@@ -109,7 +118,13 @@ namespace Dwarven_Fortress
             {
                 for (int j = 0; j < _height; j++)
                 {
-                    if (grid[i, j] >= _peaks)
+                    if( grid[i, j] > 255 )
+                    {
+                        R[i, j] = 250;
+                        G[i, j] = 0;
+                        B[i, j] = 0;
+                    }
+                    else if (grid[i, j] >= _peaks)
                     {
                         R[i, j] = 250;
                         G[i, j] = 250;

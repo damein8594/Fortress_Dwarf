@@ -8,6 +8,8 @@ namespace Player_movement
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private static Texture2D rect;
+
 
         public Game1()
         {
@@ -28,6 +30,9 @@ namespace Player_movement
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            rect = new Texture2D(GraphicsDevice, 1, 1);
+            rect.SetData(new Color[] { Color.White });
         }
 
         protected override void Update(GameTime gameTime)
@@ -45,6 +50,11 @@ namespace Player_movement
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+
+            _spriteBatch.Draw(rect, new Rectangle(10, 10, 10, 10), Color.White);
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
