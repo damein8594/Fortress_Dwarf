@@ -41,6 +41,12 @@ namespace Dwarven_Fortress
         private int _plains = 115;
         private int _sands = 110;
 
+        /*
+         * pixel size 4 = tect_point 1000
+         * pixel size 8 = tect_point 500
+         * pixel size 16 = tect _point 250
+         */
+
         private int tect_points = 500;
 
         public Game1()
@@ -98,6 +104,7 @@ namespace Dwarven_Fortress
                 }
             }
 
+            // create mountains
             for (int i = 0; i < tect_point_height.Count; i++)
             {
                 for (int k = -1; k <= 1; k++)
@@ -113,7 +120,6 @@ namespace Dwarven_Fortress
                     }
                 }
             }
-
 
             // smooth grid
             for (int x = 0; x < _smoothness; x++)
