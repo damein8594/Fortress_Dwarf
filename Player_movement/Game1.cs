@@ -10,6 +10,8 @@ namespace Player_movement
         private SpriteBatch _spriteBatch;
         private static Texture2D rect;
 
+        private int x = 10;
+        private int y = 10;
 
         public Game1()
         {
@@ -21,6 +23,9 @@ namespace Player_movement
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            //_graphics.PreferredBackBufferWidth = 1000;
+            //_graphics.PreferredBackBufferHeight = 1000;
+            //_graphics.ApplyChanges();
 
             base.Initialize();
         }
@@ -32,13 +37,15 @@ namespace Player_movement
             // TODO: use this.Content to load your game content here
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             rect = new Texture2D(GraphicsDevice, 1, 1);
-            rect.SetData(new Color[] { Color.White });
+            rect.SetData(new Color[] { Color.Chocolate });
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            x++;
+            y++;
 
             // TODO: Add your update logic here
 
@@ -52,7 +59,10 @@ namespace Player_movement
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
-            _spriteBatch.Draw(rect, new Rectangle(10, 10, 10, 10), Color.White);
+            while (x >= 0 && y >= 0 && x <= 1000 && y <= 1000)
+            {
+                _spriteBatch.Draw(rect, new Rectangle(x, y, 10, 10), Color.Chocolate);
+            }
 
             _spriteBatch.End();
 
