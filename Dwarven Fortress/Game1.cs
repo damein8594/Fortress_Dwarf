@@ -25,7 +25,7 @@ namespace Dwarven_Fortress
         List<int> tect_point_width;
         List<int> tect_point_height;
 
-        private int _smoothness = 2;
+        private int _smoothness = 3;
 
         private int smooth_average = 0;
 
@@ -41,7 +41,7 @@ namespace Dwarven_Fortress
         private int _plains = 115;
         private int _sands = 110;
 
-        private int tect_points = 1000;
+        private int tect_points = 500;
 
         public Game1()
         {
@@ -89,7 +89,7 @@ namespace Dwarven_Fortress
                 {
                     if (i >= 0 && i < border_sea_width || j >= 0 && j < border_sea_height || i <= _width && i > _width - border_sea_width || j <= _height && j > _height - border_sea_height)
                     {
-                        grid[i, j] = 105;
+                        grid[i, j] = rng.Next(100, _sands);
                     }
                     else
                     {
@@ -100,8 +100,18 @@ namespace Dwarven_Fortress
 
             for (int i = 0; i < tect_point_height.Count; i++)
             {
-                grid[tect_point_width[i], tect_point_height[i]] = 255;
-
+                for (int k = -1; k <= 1; k++)
+                {
+                    for (int l = -1; l <= 1; l++)
+                    {
+                        int nk = tect_point_width[i] + k;
+                        int nl = tect_point_height[i] + l;
+                        if (nk >= 0 && nk < _width && nl >= 0 && nl < _height)
+                        {
+                            grid[nk, nl] = rng.Next(_mountains - 10, 255);
+                        }
+                    }
+                }
             }
 
 
