@@ -41,13 +41,7 @@ namespace Dwarven_Fortress
         private int _plains = 115;
         private int _sands = 110;
 
-        /*
-         * pixel size 4 = tect_point 1000
-         * pixel size 8 = tect_point 500
-         * pixel size 16 = tect _point 250
-         */
-
-        private int tect_points = 500;
+        private int tect_points = 450;
 
         public Game1()
         {
