@@ -35,7 +35,7 @@ namespace Dwarven_Fortress
         private int _pixelWidth = 8;
         private int _pixelHeight = 8;
 
-        private int _peaks = 165;
+        
         private int _mountains = 155;
         private int _forest = 130;
         private int _plains = 115;

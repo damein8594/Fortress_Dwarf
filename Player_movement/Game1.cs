@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Transactions;
 
 namespace Player_movement
@@ -20,20 +21,35 @@ namespace Player_movement
         private SpriteBatch _spriteBatch;
         private static Texture2D rect;
 
-        private int screen_width = 500;
-        private int screen_hight = 250;
+        Random rng;
 
-        private int pixel_width = 10;
-        private int pixel_hight = 10;
+        int[,] grid;
+        int[,] grid_buffer;
 
-        private int x = 10;
-        private int y = 10;
+        private int _peaks = 165;
+
+        private int tect_points = 450;
+
+
+        private int screen_width = 1000;
+        private int screen_height = 1000;
+
+        private int pixelWidth = 10;
+        private int pixelHeight = 10;
+
+        private int width = 250;
+        private int height = 125;
+
+        private int x = 0;
+        private int y = 0;
 
         private int xdirection = 1;
         private int ydirection = 1;
 
-        private int speed = 1;
+        private int speed = 10;
 
+        private int mousex = 0;
+        private int mousey = 0;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -44,10 +60,12 @@ namespace Player_movement
         protected override void Initialize()
         {
             //TODO: Add your initialization logic here
-            _graphics.PreferredBackBufferWidth = screen_width;
-            _graphics.PreferredBackBufferHeight = screen_hight;
+            _graphics.PreferredBackBufferWidth = width * (pixelWidth);
+            _graphics.PreferredBackBufferHeight = height * (pixelWidth);
             _graphics.ApplyChanges();
 
+            grid = new int[width, height];
+            grid_buffer = new int[width, height];
 
             base.Initialize();
         }
@@ -69,21 +87,35 @@ namespace Player_movement
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            Point mousePosition = GetMousePosition();
-            int mousex = mousePosition.X;
-            int mousey = mousePosition.Y;
+            MouseState mouse = Mouse.GetState(); // Add this line to get the current mouse state
+            if (mouse.LeftButton == ButtonState.Pressed)
+            {
+                
+                Point mousePosition = GetMousePosition();
+                mousex = mousePosition.X;
+                mousey = mousePosition.Y;
+            }
 
+            //if (x < mousex) { xdirection = 1; }
+            //if (x == mousex) { xdirection = 0; }
+            //if (x > mousex) { xdirection = -1; }
 
-            if (x < mousex) { xdirection = 1; }
-            if (x == mousex) { xdirection = 0; }
-            if (x > mousex) { xdirection = -1; }
+            //if (y < mousey) { ydirection = 1; }
+            //if (y == mousey) { ydirection = 0; }
+            //if (y > mousey) { ydirection = -1; }
 
-            if (y < mousey) { ydirection = 1; }
-            if (y == mousey) { ydirection = 0; }
-            if (y > mousey) { ydirection = -1; }
+            //x = x + (xdirection * speed);
+            //y = y + (ydirection * speed);
 
-            x = x + (xdirection * speed);
-            y = y + (ydirection * speed);
+            
+            if (x < mousex) { x += speed; }
+            if (x == mousex) { x += 0; }
+            if (x > mousex) { x -= speed; }
+
+            if (y < mousey) { y += speed; }
+            if (y == mousey) { y += speed; }
+            if (y > mousey) { y -= speed; }
+
 
             //if (x == screen_width - pixel_width){xdirection =-1;}
             //if (y == screen_hight  - pixel_hight){ydirection = -1;}
@@ -104,7 +136,7 @@ namespace Player_movement
 
 
 
-            _spriteBatch.Draw(rect, new Rectangle(x, y, 10, 10), Color.Chocolate);
+            _spriteBatch.Draw(rect, new Rectangle(x, y, pixelWidth, pixelHeight), Color.Chocolate);
 
 
             _spriteBatch.End();
